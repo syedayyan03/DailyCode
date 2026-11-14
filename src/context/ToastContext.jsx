@@ -34,7 +34,7 @@ export function ToastProvider({ children }) {
       <div 
         role="region" 
         aria-live="polite" 
-        className="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"
+        className="fixed bottom-5 right-5 z-50 flex flex-col gap-2.5 max-w-sm w-full pointer-events-none px-4 sm:px-0"
       >
         {toasts.map((toast) => {
           const isSuccess = toast.type === 'success';
@@ -44,23 +44,23 @@ export function ToastProvider({ children }) {
           return (
             <div
               key={toast.id}
-              className={`pointer-events-auto flex items-start gap-3 p-4 rounded-xl shadow-xl border backdrop-blur-md transition-all duration-300 animate-slide-up ${
+              className={`pointer-events-auto flex items-start gap-3 p-4 rounded-2xl shadow-2xl border backdrop-blur-2xl transition-all duration-300 ${
                 isSuccess
-                  ? 'bg-dark-card/95 border-brand-success/40 text-brand-text shadow-brand-success/10'
+                  ? 'bg-[#0D111A]/95 border-emerald-500/40 text-slate-100 shadow-glow-success/20'
                   : isError
-                  ? 'bg-dark-card/95 border-brand-danger/40 text-brand-text shadow-brand-danger/10'
+                  ? 'bg-[#0D111A]/95 border-rose-500/40 text-slate-100 shadow-glow-danger/20'
                   : isWarning
-                  ? 'bg-dark-card/95 border-brand-warning/40 text-brand-text shadow-brand-warning/10'
-                  : 'bg-dark-card/95 border-brand-purple/40 text-brand-text shadow-brand-purple/10'
+                  ? 'bg-[#0D111A]/95 border-[#D4AF37]/40 text-slate-100 shadow-glow-gold/20'
+                  : 'bg-[#0D111A]/95 border-blue-500/40 text-slate-100 shadow-glow-sapphire/20'
               }`}
             >
               <div className="flex-shrink-0 mt-0.5">
-                {isSuccess && <CheckCircle2 className="w-5 h-5 text-brand-success" />}
-                {isError && <AlertCircle className="w-5 h-5 text-brand-danger" />}
-                {isWarning && <AlertTriangle className="w-5 h-5 text-brand-warning" />}
-                {!isSuccess && !isError && !isWarning && <Info className="w-5 h-5 text-brand-blue" />}
+                {isSuccess && <CheckCircle2 className="w-5 h-5 text-emerald-400" />}
+                {isError && <AlertCircle className="w-5 h-5 text-rose-400" />}
+                {isWarning && <AlertTriangle className="w-5 h-5 text-[#D4AF37]" />}
+                {!isSuccess && !isError && !isWarning && <Info className="w-5 h-5 text-blue-400" />}
               </div>
-              <div className="flex-1 text-sm font-medium leading-relaxed">
+              <div className="flex-1 text-xs sm:text-sm font-medium leading-relaxed">
                 {toast.message}
               </div>
               <button

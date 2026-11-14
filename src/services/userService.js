@@ -13,23 +13,33 @@ const ADMIN_EMAILS = (import.meta.env.VITE_ADMIN_EMAILS || '')
   .filter(Boolean);
 
 /**
- * Synchronize user profile in Cloud Firestore on login:
- * Creates user document with default role 'USER' if not existing.
- * Grants 'ADMIN' if the user's email matches the configured admin emails.
- * Updates lastSeenAt.
+ * Synchronize user profile on login:
+ * Works with Firestore if configured, or local session state.
  * 
- * @param {Object} authUser - Firebase auth user object
+ * @param {Object} authUser - Firebase or local auth user object
  * @returns {Promise<Object>} User document data
  */
 export async function syncUserProfile(authUser) {
   if (!authUser || !authUser.uid) return null;
 
-  if (!isFirebaseConfigured || !db) {
-    throw new Error('Firestore is not configured. Please configure Firebase credentials.');
-  }
-
   const userEmail = (authUser.email || '').toLowerCase();
-  const isAdminByEmail = ADMIN_EMAILS.includes(userEmail) || userEmail === 'shadeedshaik1@gmail.com';
+  const isAdminByEmail = ADMIN_EMAILS.includes(userEmail) || 
+    userEmail === 'admin@dailycode.dev' || 
+    userEmail === 'shadeedshaik1@gmail.com' ||
+    authUser.role === 'ADMIN';
+
+  if (!isFirebaseConfigured || !db) {
+    const localProfile = {
+      uid: authUser.uid,
+      displayName: authUser.displayName || 'Developer',
+      email: authUser.email || '',
+      photoURL: authUser.photoURL || '',
+      role: isAdminByEmail ? 'ADMIN' : (authUser.role || 'USER'),
+      createdAt: authUser.createdAt || new Date().toISOString(),
+      lastSeenAt: new Date().toISOString()
+    };
+    return localProfile;
+  }
 
   try {
     const userRef = doc(db, 'users', authUser.uid);
@@ -67,13 +77,12 @@ export async function syncUserProfile(authUser) {
       return { ...existingData, role, lastSeenAt: new Date() };
     }
   } catch (err) {
-    console.error('Error syncing user profile in Firestore:', err);
-    // Return resilient user profile so UI continues functioning
+    console.warn('Firestore user sync warning, using local profile fallback:', err);
     return {
       uid: authUser.uid,
-      displayName: authUser.displayName,
-      email: authUser.email,
-      photoURL: authUser.photoURL,
+      displayName: authUser.displayName || 'Developer',
+      email: authUser.email || '',
+      photoURL: authUser.photoURL || '',
       role: isAdminByEmail ? 'ADMIN' : 'USER'
     };
   }
@@ -83,17 +92,38 @@ export async function syncUserProfile(authUser) {
  * Explicitly promote or claim admin role for current user
  */
 export async function claimAdminRole(uid) {
-  if (!uid || !db) return;
-  const userRef = doc(db, 'users', uid);
-  await setDoc(userRef, { role: 'ADMIN', lastSeenAt: serverTimestamp() }, { merge: true });
+  if (!uid) return;
+  if (isFirebaseConfigured && db) {
+    try {
+      const userRef = doc(db, 'users', uid);
+      await setDoc(userRef, { role: 'ADMIN', lastSeenAt: serverTimestamp() }, { merge: true });
+    } catch (e) {
+      console.warn('Firestore claimAdminRole warning:', e);
+    }
+  }
 }
 
 /**
- * Fetch a user profile by UID from Firestore
+ * Fetch a user profile by UID
  */
 export async function getUserProfile(uid) {
-  if (!uid || !db) return null;
-  const userRef = doc(db, 'users', uid);
-  const snap = await getDoc(userRef);
-  return snap.exists() ? snap.data() : null;
+  if (!uid) return null;
+  if (!isFirebaseConfigured || !db) {
+    try {
+      const active = localStorage.getItem('dailycode_active_session');
+      if (active) {
+        const u = JSON.parse(active);
+        if (u.uid === uid) return u;
+      }
+    } catch (e) {}
+    return null;
+  }
+
+  try {
+    const userRef = doc(db, 'users', uid);
+    const snap = await getDoc(userRef);
+    return snap.exists() ? snap.data() : null;
+  } catch (e) {
+    return null;
+  }
 }

@@ -15,7 +15,10 @@ import {
   ShieldAlert, 
   CheckCircle2, 
   AlertTriangle,
-  Loader2 
+  Loader2,
+  Zap,
+  TrendingUp,
+  Crown
 } from 'lucide-react';
 import { getTodayString, formatDisplayDate } from '../utils/dateUtils';
 import { calculateStreaks } from '../utils/streakCalculator';
@@ -73,37 +76,41 @@ export default function Dashboard() {
   const firstName = displayName.split(' ')[0];
 
   return (
-    <div className="min-h-screen bg-dark-bg text-brand-text flex flex-col selection:bg-brand-purple/30 selection:text-white">
+    <div className="min-h-screen bg-[#07090E] text-slate-100 flex flex-col selection:bg-[#D4AF37]/30 selection:text-white">
       <Navbar />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 space-y-8">
+        
         {/* Welcome Section */}
-        <section className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-2 border-b border-dark-border/60">
+        <section className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b border-[#1E2638]">
           <div>
-            <div className="flex items-center gap-2 text-xs font-mono text-brand-purple-light mb-1">
-              <Sparkles className="w-3.5 h-3.5" />
+            <div className="flex items-center gap-2 text-xs font-mono text-[#D4AF37] mb-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
               <span>{formatDisplayDate(todayStr)}</span>
             </div>
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight">
-              Keep showing up, <span className="text-gradient">{firstName}</span>.
+              Keep showing up,{' '}
+              <span className="text-gradient">
+                {firstName}
+              </span>.
             </h1>
           </div>
 
           {/* Today's quick status badge */}
           <div>
             {isTodayCompleted ? (
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-success/15 border border-brand-success/30 text-brand-success text-xs font-semibold">
-                <CheckCircle2 className="w-4 h-4" />
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 text-xs font-mono font-bold shadow-glow-success/20">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                 <span>Today's Challenge Completed</span>
               </div>
             ) : streakStats.isStreakAtRisk ? (
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-400 text-xs font-semibold animate-pulse">
-                <AlertTriangle className="w-4 h-4" />
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-[#D4AF37]/15 border border-[#D4AF37]/40 text-[#F3E5AB] text-xs font-mono font-bold animate-pulse shadow-glow-gold/25">
+                <AlertTriangle className="w-4 h-4 text-[#D4AF37]" />
                 <span>Solve today to protect your {streakStats.currentStreak}-day streak!</span>
               </div>
             ) : (
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-dark-card border border-dark-border text-brand-subtext text-xs font-mono">
-                <Calendar className="w-3.5 h-3.5 text-brand-purple-light" />
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-[#0D111A] border border-[#1E2638] text-zinc-400 text-xs font-mono">
+                <Calendar className="w-3.5 h-3.5 text-blue-400" />
                 <span>Pending Today's Solution</span>
               </div>
             )}
@@ -111,16 +118,17 @@ export default function Dashboard() {
         </section>
 
         {/* Statistics Cards (Current Streak, Longest Streak, Problems Completed) */}
-        <section className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+        <section className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+          
           {/* Card 1: Current Streak */}
           <StatCard
             title="Current Streak"
             value={`${streakStats.currentStreak} ${streakStats.currentStreak === 1 ? 'Day' : 'Days'}`}
             icon={Flame}
-            accentColor="orange"
+            accentColor="gold"
             badge={
               isTodayCompleted 
-                ? 'Active Today' 
+                ? 'Secured Today' 
                 : streakStats.isStreakAtRisk 
                 ? 'Needs Action' 
                 : streakStats.currentStreak > 0 
@@ -130,9 +138,9 @@ export default function Dashboard() {
             badgeType={isTodayCompleted ? 'success' : streakStats.isStreakAtRisk ? 'warning' : 'neutral'}
             subtitle={
               isTodayCompleted
-                ? 'Streak secured for today!'
+                ? 'Streak safely secured for today!'
                 : streakStats.isStreakAtRisk
-                ? 'Solve today to keep streak alive'
+                ? 'Solve today before midnight to stay alive'
                 : 'Complete challenges consecutively'
             }
           />
@@ -150,33 +158,35 @@ export default function Dashboard() {
 
           {/* Card 3: Problems Completed */}
           <StatCard
-            title="Problems Completed"
+            title="Problems Solved"
             value={streakStats.totalCompleted}
             icon={Target}
-            accentColor="blue"
-            badge="Total Solved"
-            badgeType="neutral"
-            subtitle="Total daily challenges conquered"
+            accentColor="sapphire"
+            badge="All-Time Total"
+            badgeType="cyan"
+            subtitle="Total curated challenges conquered"
           />
         </section>
 
         {/* Main Content Grid: Daily Challenge + Weekly Activity */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+          
           {/* Left Column (2 Cols on lg): Daily Challenge Hero */}
           <div className="lg:col-span-2 space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-bold text-white tracking-tight flex items-center gap-2">
-                <span>Daily Challenge</span>
-                <span className="text-xs font-mono font-normal text-brand-subtext">
+                <Crown className="w-4 h-4 text-[#D4AF37]" />
+                <span>Today's Challenge</span>
+                <span className="text-xs font-mono font-normal text-zinc-400">
                   ({todayStr})
                 </span>
               </h2>
             </div>
 
             {loadingChallenge ? (
-              <div className="bg-dark-card border border-dark-border rounded-3xl p-12 flex flex-col items-center justify-center text-center">
-                <Loader2 className="w-8 h-8 text-brand-purple animate-spin mb-3" />
-                <p className="text-sm text-brand-subtext font-mono">Loading today's challenge...</p>
+              <div className="glass-card border border-[#1E2638] rounded-3xl p-14 flex flex-col items-center justify-center text-center">
+                <Loader2 className="w-8 h-8 text-[#D4AF37] animate-spin mb-3" />
+                <p className="text-sm text-zinc-400 font-mono">Loading today's challenge...</p>
               </div>
             ) : todayChallenge ? (
               <DailyChallenge
@@ -198,17 +208,19 @@ export default function Dashboard() {
             <WeeklyActivity completedDatesSet={streakStats.completedDatesSet} />
 
             {/* Consistency Quote Card */}
-            <div className="bg-gradient-to-br from-dark-card to-[#181822] border border-dark-border/80 rounded-2xl p-6 shadow-xl relative overflow-hidden">
-              <div className="flex items-center gap-2 text-xs font-mono text-brand-purple-light uppercase tracking-wider mb-3">
-                <Sparkles className="w-4 h-4 text-brand-purple" />
+            <div className="glass-card border border-[#1E2638] rounded-3xl p-6 shadow-xl relative overflow-hidden group">
+              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#3B82F6]" />
+              
+              <div className="flex items-center gap-2 text-xs font-mono text-[#E6CA65] uppercase tracking-wider mb-3">
+                <Sparkles className="w-4 h-4 text-[#D4AF37]" />
                 <span>The DailyCode Philosophy</span>
               </div>
-              <blockquote className="text-sm text-zinc-300 italic leading-relaxed mb-4">
+              <blockquote className="text-sm text-zinc-300 italic leading-relaxed mb-4 font-sans">
                 "We are what we repeatedly do. Excellence, then, is not an act, but a habit."
               </blockquote>
-              <div className="flex items-center justify-between text-xs text-brand-subtext font-mono border-t border-dark-border/60 pt-3">
+              <div className="flex items-center justify-between text-xs text-zinc-400 font-mono border-t border-[#1E2638] pt-3">
                 <span>Aristotle</span>
-                <span className="text-brand-purple-light font-bold">1% Better Every Day</span>
+                <span className="text-[#F3E5AB] font-bold font-mono">1% Better Every Day</span>
               </div>
             </div>
           </div>

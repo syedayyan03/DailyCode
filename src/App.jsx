@@ -1,10 +1,12 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { ToastProvider } from './context/ToastContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminRoute from './components/AdminRoute';
 import LandingPage from './pages/LandingPage';
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
 import Dashboard from './pages/Dashboard';
 import ProgressPage from './pages/ProgressPage';
 import AdminDashboard from './pages/AdminDashboard';
@@ -16,10 +18,14 @@ export default function App() {
       <ToastProvider>
         <AuthProvider>
           <Routes>
-            {/* Public Landing & Login */}
+            {/* Public Landing Page */}
             <Route path="/" element={<LandingPage />} />
 
-            {/* Protected User Dashboard */}
+            {/* Authentication Routes (Google & Email Supported) */}
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+
+            {/* Authenticated Developer Dashboard */}
             <Route
               path="/dashboard"
               element={
@@ -29,7 +35,7 @@ export default function App() {
               }
             />
 
-            {/* Protected User Progress & History */}
+            {/* Authenticated Developer Progress & History */}
             <Route
               path="/progress"
               element={
@@ -39,7 +45,7 @@ export default function App() {
               }
             />
 
-            {/* Protected Admin Challenge Console */}
+            {/* Admin Challenge Management Console */}
             <Route
               path="/admin"
               element={

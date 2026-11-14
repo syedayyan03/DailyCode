@@ -4,76 +4,113 @@ export default function StatCard({
   title, 
   value, 
   icon: Icon, 
-  accentColor = 'purple', 
+  accentColor = 'gold', 
   subtitle, 
   badge,
   badgeType = 'neutral' 
 }) {
   const colorStyles = {
-    purple: {
-      border: 'border-brand-purple/20 hover:border-brand-purple/50',
-      iconBg: 'bg-brand-purple/10 text-brand-purple-light border-brand-purple/20',
-      glow: 'hover:shadow-glow-purple',
-      accentText: 'text-brand-purple-light'
+    gold: {
+      border: 'border-[#D4AF37]/30 hover:border-[#D4AF37]/70',
+      iconBg: 'bg-[#D4AF37]/10 text-[#F3E5AB] border-[#D4AF37]/35 shadow-glow-gold/30',
+      glow: 'hover:shadow-glow-gold',
+      accentText: 'text-[#F3E5AB]',
+      topLine: 'from-[#D4AF37] via-[#F3E5AB] to-[#997D24]'
     },
-    blue: {
-      border: 'border-brand-blue/20 hover:border-brand-blue/50',
-      iconBg: 'bg-brand-blue/10 text-brand-blue-light border-brand-blue/20',
-      glow: 'hover:shadow-glow-blue',
-      accentText: 'text-brand-blue-light'
+    mint: {
+      border: 'border-[#D4AF37]/30 hover:border-[#D4AF37]/70',
+      iconBg: 'bg-[#D4AF37]/10 text-[#F3E5AB] border-[#D4AF37]/35 shadow-glow-gold/30',
+      glow: 'hover:shadow-glow-gold',
+      accentText: 'text-[#F3E5AB]',
+      topLine: 'from-[#D4AF37] via-[#F3E5AB] to-[#997D24]'
+    },
+    cyan: {
+      border: 'border-blue-500/30 hover:border-blue-500/70',
+      iconBg: 'bg-blue-500/10 text-blue-300 border-blue-500/35 shadow-glow-sapphire/30',
+      glow: 'hover:shadow-glow-sapphire',
+      accentText: 'text-blue-300',
+      topLine: 'from-blue-500 via-indigo-400 to-blue-700'
+    },
+    sapphire: {
+      border: 'border-blue-500/30 hover:border-blue-500/70',
+      iconBg: 'bg-blue-500/10 text-blue-300 border-blue-500/35 shadow-glow-sapphire/30',
+      glow: 'hover:shadow-glow-sapphire',
+      accentText: 'text-blue-300',
+      topLine: 'from-blue-500 via-indigo-400 to-blue-700'
+    },
+    violet: {
+      border: 'border-purple-500/30 hover:border-purple-500/70',
+      iconBg: 'bg-purple-500/10 text-purple-300 border-purple-500/35 shadow-glow-amethyst/30',
+      glow: 'hover:shadow-glow-amethyst',
+      accentText: 'text-purple-300',
+      topLine: 'from-purple-500 via-pink-400 to-purple-800'
+    },
+    purple: {
+      border: 'border-purple-500/30 hover:border-purple-500/70',
+      iconBg: 'bg-purple-500/10 text-purple-300 border-purple-500/35 shadow-glow-amethyst/30',
+      glow: 'hover:shadow-glow-amethyst',
+      accentText: 'text-purple-300',
+      topLine: 'from-purple-500 via-pink-400 to-purple-800'
+    },
+    emerald: {
+      border: 'border-emerald-500/30 hover:border-emerald-500/70',
+      iconBg: 'bg-emerald-500/10 text-emerald-300 border-emerald-500/35 shadow-glow-success/30',
+      glow: 'hover:shadow-glow-success',
+      accentText: 'text-emerald-300',
+      topLine: 'from-emerald-400 via-teal-400 to-emerald-700'
     },
     orange: {
-      border: 'border-amber-500/20 hover:border-amber-500/50',
-      iconBg: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
-      glow: 'hover:shadow-[0_0_25px_-5px_rgba(245,158,11,0.25)]',
-      accentText: 'text-amber-400'
-    },
-    green: {
-      border: 'border-brand-success/20 hover:border-brand-success/50',
-      iconBg: 'bg-brand-success/10 text-brand-success border-brand-success/20',
-      glow: 'hover:shadow-glow-success',
-      accentText: 'text-brand-success'
+      border: 'border-[#D4AF37]/30 hover:border-[#D4AF37]/70',
+      iconBg: 'bg-[#D4AF37]/10 text-[#F3E5AB] border-[#D4AF37]/35 shadow-glow-gold/30',
+      glow: 'hover:shadow-glow-gold',
+      accentText: 'text-[#F3E5AB]',
+      topLine: 'from-[#D4AF37] via-[#F3E5AB] to-[#997D24]'
     }
   };
 
-  const style = colorStyles[accentColor] || colorStyles.purple;
+  const style = colorStyles[accentColor] || colorStyles.gold;
 
   const badgeStyles = {
-    success: 'bg-brand-success/15 text-brand-success border-brand-success/30',
-    warning: 'bg-amber-500/15 text-amber-400 border-amber-500/30',
-    purple: 'bg-brand-purple/15 text-brand-purple-light border-brand-purple/30',
-    neutral: 'bg-zinc-800 text-zinc-400 border-zinc-700'
+    success: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/40 shadow-sm',
+    warning: 'bg-[#D4AF37]/15 text-[#F3E5AB] border-[#D4AF37]/40',
+    purple: 'bg-purple-500/15 text-purple-300 border-purple-500/40',
+    cyan: 'bg-blue-500/15 text-blue-300 border-blue-500/40',
+    neutral: 'bg-[#0D111A] text-zinc-400 border-[#1E2638]'
   };
 
   return (
     <div 
-      className={`relative bg-dark-card border ${style.border} rounded-2xl p-5 sm:p-6 transition-all duration-300 ${style.glow} group overflow-hidden`}
+      className={`relative glass-card border ${style.border} rounded-3xl p-6 transition-all duration-300 ${style.glow} group overflow-hidden`}
     >
-      {/* Background subtle radial glow */}
-      <div className="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-white/[0.02] blur-xl pointer-events-none group-hover:bg-white/[0.04] transition-all" />
+      {/* Decorative top luminous gold line */}
+      <div className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r ${style.topLine} opacity-80 group-hover:opacity-100 transition-opacity`} />
+      
+      {/* Subtle ambient corner flare */}
+      <div className="absolute -top-16 -right-16 w-36 h-36 rounded-full bg-white/[0.02] blur-2xl pointer-events-none group-hover:bg-[#D4AF37]/[0.05] transition-all" />
 
       <div className="flex items-center justify-between mb-4">
-        <span className="text-xs sm:text-sm font-medium text-brand-subtext tracking-wide uppercase font-mono">
+        <span className="text-xs font-semibold text-zinc-400 tracking-wider uppercase font-mono">
           {title}
         </span>
-        <div className={`w-10 h-10 rounded-xl flex items-center justify-center border ${style.iconBg} transition-transform group-hover:scale-110 duration-200`}>
+        <div className={`w-11 h-11 rounded-2xl flex items-center justify-center border ${style.iconBg} transition-all group-hover:scale-110 duration-300`}>
           <Icon className="w-5 h-5" />
         </div>
       </div>
 
-      <div className="flex items-baseline gap-2">
+      <div className="flex items-baseline gap-3">
         <span className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight font-sans">
           {value}
         </span>
         {badge && (
-          <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold border ${badgeStyles[badgeType]}`}>
+          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-mono font-semibold border ${badgeStyles[badgeType] || badgeStyles.neutral}`}>
             {badge}
           </span>
         )}
       </div>
 
       {subtitle && (
-        <p className="mt-2 text-xs text-zinc-400 flex items-center gap-1 font-sans">
+        <p className="mt-2.5 text-xs text-zinc-400 flex items-center gap-1.5 font-sans leading-relaxed">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]/60 inline-block" />
           {subtitle}
         </p>
       )}

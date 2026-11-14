@@ -8,67 +8,149 @@
   }
 
   body {
-    background-color: #09090B;
-    color: #F4F4F5;
+    background-color: #07090E;
+    color: #F8FAFC;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(212, 175, 55, 0.05) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.05) 0px, transparent 50%),
+      radial-gradient(at 50% 100%, rgba(139, 92, 246, 0.04) 0px, transparent 50%),
+      linear-gradient(rgba(30, 38, 56, 0.15) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(30, 38, 56, 0.15) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 100% 100%, 56px 56px, 56px 56px;
+    background-attachment: fixed;
+    min-height: 100vh;
   }
 
-  /* Custom Sleek Scrollbar */
+  /* Luxurious Gold/Platinum Scrollbar */
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
   }
 
   ::-webkit-scrollbar-track {
-    background: #09090B;
+    background: #07090E;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #27272A;
-    border-radius: 4px;
+    background: #1E2638;
+    border-radius: 9999px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #3F3F46;
+    background: #D4AF37;
   }
 }
 
 @layer utilities {
+  /* Gilded Imperial Gold & Champagne Gradients */
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-purple via-brand-purple-light to-brand-blue;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    background-image: linear-gradient(135deg, #FFFFFF 0%, #F3E5AB 30%, #D4AF37 70%, #AA771C 100%);
   }
 
-  .text-gradient-purple {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-indigo-400;
+  .text-gradient-gold {
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    background-image: linear-gradient(135deg, #FFF6D6 0%, #D4AF37 60%, #997D24 100%);
   }
 
+  .text-gradient-sapphire {
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    background-image: linear-gradient(135deg, #93C5FD 0%, #3B82F6 60%, #1D4ED8 100%);
+  }
+
+  .text-gradient-emerald {
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    background-image: linear-gradient(135deg, #A7F3D0 0%, #10B981 60%, #047857 100%);
+  }
+
+  .text-gradient-ruby {
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    background-image: linear-gradient(135deg, #FECDD3 0%, #E11D48 60%, #9F1239 100%);
+  }
+
+  .text-gradient-mint {
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    background-image: linear-gradient(135deg, #FFF6D6 0%, #D4AF37 60%, #AA771C 100%);
+  }
+
+  .text-gradient-cyan {
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    background-image: linear-gradient(135deg, #93C5FD 0%, #3B82F6 100%);
+  }
+
+  .text-gradient-violet {
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    background-image: linear-gradient(135deg, #DDD6FE 0%, #8B5CF6 100%);
+  }
+
+  /* Royal Glassmorphic Cards */
   .glass-card {
-    background: rgba(20, 20, 24, 0.85);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(39, 39, 42, 0.8);
+    background: rgba(17, 22, 36, 0.78);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(30, 38, 56, 0.9);
   }
 
-  .card-border-glow {
+  .glass-card-hover {
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .glass-card-hover:hover {
+    background: rgba(22, 29, 46, 0.88);
+    border-color: rgba(212, 175, 55, 0.4);
+    box-shadow: 0 12px 35px -10px rgba(212, 175, 55, 0.15);
+    transform: translateY(-2px);
+  }
+
+  .card-gold-glow {
     position: relative;
   }
-
-  .card-border-glow::before {
+  .card-gold-glow::before {
     content: '';
     position: absolute;
     inset: -1px;
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.4), rgba(99, 102, 241, 0.1), transparent 60%);
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.5), rgba(59, 130, 246, 0.2), transparent 70%);
     border-radius: inherit;
     z-index: -1;
     pointer-events: none;
   }
 }
 
-/* Animations */
-@keyframes pulseSubtle {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.85; transform: scale(1.02); }
+/* Crown & Status Beacon Animations */
+@keyframes beaconGoldPulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.6); }
+  70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(212, 175, 55, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
 }
 
-.animate-pulse-subtle {
-  animation: pulseSubtle 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+.beacon-gold {
+  animation: beaconGoldPulse 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.beacon-mint {
+  animation: beaconGoldPulse 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
