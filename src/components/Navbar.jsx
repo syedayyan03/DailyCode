@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
@@ -21,6 +21,34 @@ export default function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  // Close dropdown on click outside or escape key
+  useEffect(() => {
+    if (!userDropdownOpen) return;
+
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setUserDropdownOpen(false);
+      }
+    };
+
+    const handleEscape = (event) => {
+      if (event.key === 'Escape') {
+        setUserDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
+    document.addEventListener('keydown', handleEscape);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [userDropdownOpen]);
 
   const handleLogout = async () => {
     try {
@@ -118,7 +146,7 @@ export default function Navbar() {
         {/* User Profile & Actions */}
         <div className="flex items-center gap-3">
           {currentUser ? (
-            <div className="relative">
+            <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setUserDropdownOpen(!userDropdownOpen)}
                 className="flex items-center gap-2.5 p-1.5 pr-3 rounded-2xl border border-[#1E2638] bg-[#0D111A] hover:border-[#D4AF37]/50 transition-all focus:outline-none"
@@ -149,12 +177,7 @@ export default function Navbar() {
 
               {/* User Dropdown */}
               {userDropdownOpen && (
-                <>
-                  <div 
-                    className="fixed inset-0 z-40" 
-                    onClick={() => setUserDropdownOpen(false)}
-                  />
-                  <div className="absolute right-0 mt-2 w-64 rounded-2xl bg-[#0D111A] border border-[#1E2638] shadow-2xl z-50 p-2 divide-y divide-[#1E2638]">
+                <div className="absolute right-0 mt-2 w-64 rounded-2xl bg-[#0D111A] border border-[#1E2638] shadow-2xl z-50 p-2 divide-y divide-[#1E2638] animate-fadeIn">
                     <div className="px-3 py-2.5">
                       <p className="text-xs font-medium text-zinc-400">Signed in as</p>
                       <p className="text-sm font-semibold text-white truncate">{currentUser.displayName}</p>
@@ -210,7 +233,6 @@ export default function Navbar() {
                       </button>
                     </div>
                   </div>
-                </>
               )}
             </div>
           ) : (
