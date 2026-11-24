@@ -10,6 +10,7 @@ import SignupPage from './pages/SignupPage';
 import Dashboard from './pages/Dashboard';
 import ProgressPage from './pages/ProgressPage';
 import AdminDashboard from './pages/AdminDashboard';
+import SolvePage from './pages/SolvePage';
 import NotFound from './pages/NotFound';
 
 export default function App() {
@@ -41,6 +42,16 @@ export default function App() {
               element={
                 <ProtectedRoute>
                   <ProgressPage />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Interactive Compiler Workspace */}
+            <Route
+              path="/solve"
+              element={
+                <ProtectedRoute>
+                  <SolvePage />
                 </ProtectedRoute>
               }
             />

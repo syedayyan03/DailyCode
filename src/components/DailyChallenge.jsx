@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import confetti from 'canvas-confetti';
 import { 
   ExternalLink, 
@@ -15,6 +16,7 @@ import {
   Check,
   Zap,
   Code,
+  Terminal,
   ShieldCheck,
   UserCheck,
   Edit3
@@ -236,12 +238,21 @@ export default function DailyChallenge({
               href={challenge.leetcodeURL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-[#0D111A] hover:bg-dark-card-hover border border-[#1E2638] hover:border-blue-500/50 text-white text-xs sm:text-sm font-semibold transition-all group/link"
+              className="inline-flex items-center gap-2 px-4 sm:px-5 py-3 rounded-2xl bg-[#0D111A] hover:bg-dark-card-hover border border-[#1E2638] hover:border-blue-500/50 text-white text-xs sm:text-sm font-semibold transition-all group/link"
             >
               <Code className="w-4 h-4 text-blue-400" />
               <span>Solve on LeetCode</span>
               <ExternalLink className="w-3.5 h-3.5 text-zinc-400 group-hover/link:text-blue-400 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
             </a>
+
+            {/* Solve Here (Interactive In-App Cloud Compiler) */}
+            <Link
+              to={`/solve?date=${challenge.date || ''}`}
+              className="inline-flex items-center gap-2 px-4 sm:px-5 py-3 rounded-2xl bg-gradient-to-r from-purple-600/20 via-indigo-600/20 to-blue-600/20 hover:from-purple-600/35 hover:to-blue-600/35 border border-purple-500/40 hover:border-purple-500/70 text-purple-200 hover:text-white text-xs sm:text-sm font-bold transition-all shadow-glow-amethyst/20"
+            >
+              <Terminal className="w-4 h-4 text-purple-400" />
+              <span>Solve Here</span>
+            </Link>
 
             <button
               onClick={handleCopyLink}
