@@ -8,8 +8,6 @@ import {
   TrendingUp, 
   ShieldCheck, 
   LogOut, 
-  Menu, 
-  X, 
   Sparkles,
   ExternalLink,
   Zap,
@@ -22,7 +20,6 @@ export default function Navbar() {
   const { showSuccess, showError } = useToast();
   const location = useLocation();
   const navigate = useNavigate();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
 
   const handleLogout = async () => {
@@ -233,79 +230,8 @@ export default function Navbar() {
               </Link>
             </div>
           )}
-
-          {/* Mobile menu button */}
-          {currentUser && (
-            <div className="flex md:hidden">
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2 rounded-xl border border-[#1E2638] text-zinc-400 hover:text-white hover:bg-[#0D111A] transition-colors"
-              >
-                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-              </button>
-            </div>
-          )}
         </div>
       </div>
-
-      {/* Mobile Menu Dropdown */}
-      {mobileMenuOpen && currentUser && (
-        <div className="md:hidden border-t border-[#1E2638] bg-[#07090E]/95 px-4 pt-3 pb-5 space-y-2">
-          <Link
-            to="/dashboard"
-            onClick={() => setMobileMenuOpen(false)}
-            className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium ${
-              isActive('/dashboard')
-                ? 'bg-[#D4AF37]/15 text-[#F3E5AB] border border-[#D4AF37]/35'
-                : 'text-zinc-300 hover:bg-[#0D111A]'
-            }`}
-          >
-            <Zap className="w-4 h-4 text-[#D4AF37]" />
-            <span>Today's Challenge</span>
-          </Link>
-
-          <Link
-            to="/progress"
-            onClick={() => setMobileMenuOpen(false)}
-            className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium ${
-              isActive('/progress')
-                ? 'bg-blue-600/15 text-blue-300 border border-blue-500/35'
-                : 'text-zinc-300 hover:bg-[#0D111A]'
-            }`}
-          >
-            <TrendingUp className="w-4 h-4 text-blue-400" />
-            <span>My Progress</span>
-          </Link>
-
-          {isAdmin && (
-            <Link
-              to="/admin"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold ${
-                isActive('/admin')
-                  ? 'bg-purple-600/20 text-purple-300 border border-purple-500/35'
-                  : 'text-purple-300 hover:bg-purple-950/20'
-              }`}
-            >
-              <ShieldCheck className="w-4 h-4 text-purple-400" />
-              <span>Admin Console</span>
-            </Link>
-          )}
-
-          <div className="pt-2 border-t border-[#1E2638]">
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                handleLogout();
-              }}
-              className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm text-rose-400 hover:bg-rose-500/10"
-            >
-              <LogOut className="w-4 h-4" />
-              <span>Sign Out</span>
-            </button>
-          </div>
-        </div>
-      )}
     </header>
   );
 }
