@@ -1,13 +1,23 @@
 import assert from 'assert';
 import { extractProblemSlug, verifySubmissionMatch } from '../src/utils/submissionVerifier.js';
 import { calculateStreaks } from '../src/utils/streakCalculator.js';
-import { getTodayString } from '../src/utils/dateUtils.js';
+import { getTodayString, formatLocalDate } from '../src/utils/dateUtils.js';
 
 console.log('════════════════════════════════════════════════════════════');
 console.log('🧪 SUITE 3: SYSTEM TESTS (Full End-to-End Workflow)');
 console.log('════════════════════════════════════════════════════════════\n');
 
-const BASE_URL = 'http://localhost:5174';
+async function getActiveBaseUrl() {
+  for (const port of [5173, 5174]) {
+    try {
+      const res = await fetch(`http://localhost:${port}/`);
+      if (res.ok) return `http://localhost:${port}`;
+    } catch (e) {}
+  }
+  return 'http://localhost:5173';
+}
+
+const BASE_URL = process.env.BASE_URL || await getActiveBaseUrl();
 
 async function runSystemTest() {
   const todayStr = getTodayString();
@@ -71,7 +81,15 @@ async function runSystemTest() {
 
   // Step 6: System records completion & updates streaks
   console.log('[Step 6] Updating user completion record & streak engine...');
-  const priorCompletions = ['2026-11-12', '2026-11-13']; // 2 prior days
+  const d1 = new Date();
+  d1.setDate(d1.getDate() - 1);
+  const yesterday = formatLocalDate(d1);
+
+  const d2 = new Date();
+  d2.setDate(d2.getDate() - 2);
+  const twoDaysAgo = formatLocalDate(d2);
+
+  const priorCompletions = [twoDaysAgo, yesterday]; // 2 prior consecutive days
   const updatedCompletions = [...priorCompletions, todayStr];
   const newStreakStats = calculateStreaks(updatedCompletions, todayStr);
 

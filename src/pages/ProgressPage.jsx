@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import StatCard from '../components/StatCard';
+import UnifiedStatsCard from '../components/UnifiedStatsCard';
 import { useAuth } from '../context/AuthContext';
 import { 
   Flame, 
@@ -82,38 +83,11 @@ export default function ProgressPage() {
           </Link>
         </div>
 
-        {/* Statistics Cards */}
-        <section className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-          <StatCard
-            title="Current Streak"
-            value={`${streakStats.currentStreak} ${streakStats.currentStreak === 1 ? 'Day' : 'Days'}`}
-            icon={Flame}
-            accentColor="gold"
-            badge={isTodayCompleted ? 'Completed Today' : streakStats.isStreakAtRisk ? 'At Risk' : 'Active'}
-            badgeType={isTodayCompleted ? 'success' : streakStats.isStreakAtRisk ? 'warning' : 'neutral'}
-            subtitle={isTodayCompleted ? 'Safely kept alive for today' : 'Solve today to extend your streak'}
-          />
-
-          <StatCard
-            title="Longest Streak"
-            value={`${streakStats.longestStreak} ${streakStats.longestStreak === 1 ? 'Day' : 'Days'}`}
-            icon={Trophy}
-            accentColor="purple"
-            badge="Record High"
-            badgeType="purple"
-            subtitle="Maximum consecutive days achieved"
-          />
-
-          <StatCard
-            title="Total Solved"
-            value={streakStats.totalCompleted}
-            icon={Target}
-            accentColor="sapphire"
-            badge="Milestone"
-            badgeType="cyan"
-            subtitle="Total verified completed challenges"
-          />
-        </section>
+        {/* Statistics Cards (Unified on Mobile, 3-Card Grid on Desktop) */}
+        <UnifiedStatsCard 
+          streakStats={streakStats} 
+          isTodayCompleted={isTodayCompleted} 
+        />
 
         {/* Completions Log Table / List */}
         <section className="glass-card border border-[#1E2638] rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden">

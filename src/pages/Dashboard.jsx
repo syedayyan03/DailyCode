@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import Navbar from '../components/Navbar';
 import StatCard from '../components/StatCard';
+import UnifiedStatsCard from '../components/UnifiedStatsCard';
 import DailyChallenge from '../components/DailyChallenge';
 import WeeklyActivity from '../components/WeeklyActivity';
 import EmptyState from '../components/EmptyState';
@@ -117,56 +118,11 @@ export default function Dashboard() {
           </div>
         </section>
 
-        {/* Statistics Cards (Current Streak, Longest Streak, Problems Completed) */}
-        <section className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-          
-          {/* Card 1: Current Streak */}
-          <StatCard
-            title="Current Streak"
-            value={`${streakStats.currentStreak} ${streakStats.currentStreak === 1 ? 'Day' : 'Days'}`}
-            icon={Flame}
-            accentColor="gold"
-            badge={
-              isTodayCompleted 
-                ? 'Secured Today' 
-                : streakStats.isStreakAtRisk 
-                ? 'Needs Action' 
-                : streakStats.currentStreak > 0 
-                ? 'Active' 
-                : 'Start Streak'
-            }
-            badgeType={isTodayCompleted ? 'success' : streakStats.isStreakAtRisk ? 'warning' : 'neutral'}
-            subtitle={
-              isTodayCompleted
-                ? 'Streak safely secured for today!'
-                : streakStats.isStreakAtRisk
-                ? 'Solve today before midnight to stay alive'
-                : 'Complete challenges consecutively'
-            }
-          />
-
-          {/* Card 2: Longest Streak */}
-          <StatCard
-            title="Longest Streak"
-            value={`${streakStats.longestStreak} ${streakStats.longestStreak === 1 ? 'Day' : 'Days'}`}
-            icon={Trophy}
-            accentColor="purple"
-            badge="Personal Best"
-            badgeType="purple"
-            subtitle="Your all-time consecutive record"
-          />
-
-          {/* Card 3: Problems Completed */}
-          <StatCard
-            title="Problems Solved"
-            value={streakStats.totalCompleted}
-            icon={Target}
-            accentColor="sapphire"
-            badge="All-Time Total"
-            badgeType="cyan"
-            subtitle="Total curated challenges conquered"
-          />
-        </section>
+        {/* Statistics Cards (Unified on Mobile, 3-Card Grid on Desktop) */}
+        <UnifiedStatsCard 
+          streakStats={streakStats} 
+          isTodayCompleted={isTodayCompleted} 
+        />
 
         {/* Main Content Grid: Daily Challenge + Weekly Activity */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">

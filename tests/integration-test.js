@@ -4,7 +4,17 @@ console.log('══════════════════════�
 console.log('🧪 SUITE 2: INTEGRATION TESTS (API Endpoints & Network)');
 console.log('════════════════════════════════════════════════════════════\n');
 
-const BASE_URL = 'http://localhost:5174';
+async function getActiveBaseUrl() {
+  for (const port of [5173, 5174]) {
+    try {
+      const res = await fetch(`http://localhost:${port}/`);
+      if (res.ok) return `http://localhost:${port}`;
+    } catch (e) {}
+  }
+  return 'http://localhost:5173';
+}
+
+const BASE_URL = process.env.BASE_URL || await getActiveBaseUrl();
 
 async function runIntegrationTests() {
   // Test 1: Check Valid LeetCode User via Proxy
